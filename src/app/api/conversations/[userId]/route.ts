@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Conversation from "@/models/Conversation";
 
-export async function GET(req: Request, context: { params: { userId: string } }) {
+export async function GET(req: Request, { params }: { params: { userId: string } }) {
   await connectToDatabase();
   try {
-    const { userId } = await context.params;
+    const { userId } = params;
     const conversation = await Conversation.findOne({ userId });
 
     if (!conversation) {
@@ -17,4 +17,4 @@ export async function GET(req: Request, context: { params: { userId: string } })
     console.error("Error retrieving conversation:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-} 
+}

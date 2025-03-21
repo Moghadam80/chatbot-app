@@ -23,4 +23,4 @@ const ConversationSchema = new Schema<IConversation>({
 });
 
 export default mongoose.models.Conversation ||
-  mongoose.model<IConversation>("Conversation", ConversationSchema); 
+  mongoose.model<IConversation>("Conversation", ConversationSchema);

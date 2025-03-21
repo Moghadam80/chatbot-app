@@ -25,4 +25,4 @@ export async function POST(req: Request) {
     console.error("Error saving conversation:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-} 
+}
