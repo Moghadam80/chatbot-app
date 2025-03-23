@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       throw new Error(data.error?.message || "Failed to generate AI response");
-    }
+    } 
 
     // Extract AI-generated response text
     const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure about that.";

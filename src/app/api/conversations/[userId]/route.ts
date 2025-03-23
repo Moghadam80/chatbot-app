@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Conversation from "@/models/Conversation";
 
-export async function GET(req: Request, { params }: { params: { userId: string } }) {
+export async function GET(req: Request, context: { params: { userId: string } }) {
   await connectToDatabase();
   try {
-    const { userId } = params;
+    const { userId } = context.params;
     const conversation = await Conversation.findOne({ userId });
 
     if (!conversation) {
