@@ -3,11 +3,22 @@
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { fetchAPI } from "@/utils/fetchApi";
+import ProductCard from "@/components/ProductCard";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+}
 
 interface Message {
   role: "user" | "bot";
   text: string;
   feedback?: "up" | "down";
+  products?: Product[];
 }
 
 export default function ChatPage() {
@@ -52,7 +63,11 @@ export default function ChatPage() {
     setLoading(false);
 
     if (data.message) {
-      const botMessage: Message = { role: "bot", text: data.message };
+      const botMessage: Message = { 
+        role: "bot", 
+        text: data.message,
+        products: data.products || []
+      };
       setMessages((prev) => [...prev, botMessage]);
     }
   };
@@ -73,6 +88,16 @@ export default function ChatPage() {
       method: "POST",
       body: { userId, message: updatedMessages[index].text, feedback },
     });
+  };
+
+  const handleBuyNow = (product: Product) => {
+    alert(`Proceeding to checkout for ${product.name}`);
+    // Implement your checkout logic here
+  };
+
+  const handleAddToCart = (product: Product) => {
+    alert(`Added ${product.name} to cart`);
+    // Implement your cart logic here
   };
 
   return (
@@ -141,28 +166,43 @@ export default function ChatPage() {
                 </p>
 
                 {msg.role === "bot" && (
-                  <div className="mt-1 flex space-x-2">
-                    {msg.feedback === "up" ? (
-                      <span className="bg-green-500 text-white px-2 py-1 rounded">👍 Liked</span>
-                    ) : msg.feedback === "down" ? (
-                      <span className="bg-red-500 text-white px-2 py-1 rounded">👎 Disliked</span>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => submitFeedback(index, "up")}
-                          className="bg-green-500 text-white px-2 py-1 rounded"
-                        >
-                          👍
-                        </button>
-                        <button
-                          onClick={() => submitFeedback(index, "down")}
-                          className="bg-red-500 text-white px-2 py-1 rounded"
-                        >
-                          👎
-                        </button>
-                      </>
+                  <>
+                    <div className="mt-1 flex space-x-2">
+                      {msg.feedback === "up" ? (
+                        <span className="bg-green-500 text-white px-2 py-1 rounded">👍 Liked</span>
+                      ) : msg.feedback === "down" ? (
+                        <span className="bg-red-500 text-white px-2 py-1 rounded">👎 Disliked</span>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => submitFeedback(index, "up")}
+                            className="bg-green-500 text-white px-2 py-1 rounded"
+                          >
+                            👍
+                          </button>
+                          <button
+                            onClick={() => submitFeedback(index, "down")}
+                            className="bg-red-500 text-white px-2 py-1 rounded"
+                          >
+                            👎
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    
+                    {msg.products && msg.products.length > 0 && (
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {msg.products.map((product) => (
+                          <ProductCard
+                            key={product.id}
+                            product={product}
+                            onBuyNow={handleBuyNow}
+                            onAddToCart={handleAddToCart}
+                          />
+                        ))}
+                      </div>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
             ))}

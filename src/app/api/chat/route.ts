@@ -22,13 +22,15 @@ export async function POST(req: Request) {
     }
 
     // Filter relevant products by keyword match
-    const keyword = message.toLowerCase();
+    const keywords = message.toLowerCase().split(' ');
     const matchedProducts = products.filter(product =>
-      product.name.toLowerCase().includes(keyword) || product.description.toLowerCase().includes(keyword)
-    );
+      keywords.some((keyword: string) => 
+        product.name.toLowerCase().includes(keyword) ||
+        product.description.toLowerCase().includes(keyword)
+      )
+    ).slice(0, 3); // Limit to top 3 matches
 
     const productContext = matchedProducts
-      .slice(0, 5)
       .map(p => `Product: ${p.name}\nPrice: $${p.price}\nDescription: ${p.description}`)
       .join("\n\n");
 
@@ -59,7 +61,10 @@ export async function POST(req: Request) {
     );
     await conversation.save();
 
-    return NextResponse.json({ message: aiMessage });
+    return NextResponse.json({ 
+      message: aiMessage,
+      products: matchedProducts
+    });
   } catch (error: any) {
     console.error("Gemini API Error:", error);
     return NextResponse.json({ error: error.message || "Failed to generate response" }, { status: 500 });

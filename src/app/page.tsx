@@ -1,13 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import './globals.css';
-import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <Navbar />
-      
       {/* Hero Section */}
       <header className="container mx-auto px-4 py-16 md:py-24">
         <div className="flex flex-col md:flex-row items-center justify-between">
@@ -157,6 +154,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+   </div>
   );
-} 
+}

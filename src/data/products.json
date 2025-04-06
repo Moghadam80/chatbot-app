@@ -1,57 +1,67 @@
 [
     {
-      "id": "p001",
-      "name": "Wireless Bluetooth Headphones",
-      "description": "Comfortable over-ear headphones with noise cancellation and 40-hour battery life.",
-      "category": "Electronics",
-      "price": 89.99,
-      "rating": 4.6,
-      "stock": 25
+      "id": "1",
+      "name": "Wireless Headphones",
+      "description": "High-quality wireless headphones with noise cancellation",
+      "price": 199.99,
+      "image": "/images/headphones.svg",
+      "category": "electronics"
     },
     {
-      "id": "p002",
-      "name": "Men's Running Shoes",
-      "description": "Lightweight and breathable running shoes with anti-slip sole.",
-      "category": "Fashion",
-      "price": 49.95,
-      "rating": 4.3,
-      "stock": 40
+      "id": "2",
+      "name": "Smart Watch",
+      "description": "Feature-rich smartwatch with health tracking",
+      "price": 299.99,
+      "image": "/images/smartwatch.svg",
+      "category": "electronics"
     },
     {
-      "id": "p003",
-      "name": "4K Ultra HD Smart TV 55-inch",
-      "description": "Smart TV with HDR, built-in apps, and voice control compatibility.",
-      "category": "Electronics",
-      "price": 399.99,
-      "rating": 4.8,
-      "stock": 10
+      "id": "3",
+      "name": "Laptop Backpack",
+      "description": "Durable laptop backpack with multiple compartments",
+      "price": 49.99,
+      "image": "/images/backpack.svg",
+      "category": "accessories"
     },
     {
-      "id": "p004",
-      "name": "Ceramic Coffee Mug Set",
-      "description": "Set of 6 colorful ceramic mugs perfect for hot drinks. Microwave safe.",
-      "category": "Home & Kitchen",
-      "price": 24.99,
-      "rating": 4.7,
-      "stock": 60
+      "id": "4",
+      "name": "Coffee Maker",
+      "description": "Automatic coffee maker with timer",
+      "price": 79.99,
+      "image": "/images/coffee-maker.svg",
+      "category": "home"
     },
     {
-      "id": "p005",
-      "name": "Women's Casual Handbag",
-      "description": "Stylish faux-leather handbag with multiple compartments.",
-      "category": "Fashion",
-      "price": 34.99,
-      "rating": 4.5,
-      "stock": 30
-    },
-    {
-      "id": "p006",
-      "name": "Portable Laptop Stand",
-      "description": "Adjustable laptop stand with cooling pad and ergonomic design.",
-      "category": "Electronics",
+      "id": "5",
+      "name": "Yoga Mat",
+      "description": "Non-slip yoga mat with carrying strap",
       "price": 29.99,
-      "rating": 4.4,
-      "stock": 50
+      "image": "/images/yoga-mat.svg",
+      "category": "sports"
+    },
+    {
+      "id": "6",
+      "name": "Bluetooth Speaker",
+      "description": "Portable Bluetooth speaker with rich sound",
+      "price": 89.99,
+      "image": "/images/speaker.svg",
+      "category": "electronics"
+    },
+    {
+      "id": "7",
+      "name": "Desk Lamp",
+      "description": "Adjustable LED desk lamp with multiple brightness levels",
+      "price": 39.99,
+      "image": "/images/desk-lamp.svg",
+      "category": "home"
+    },
+    {
+      "id": "8",
+      "name": "Water Bottle",
+      "description": "Insulated water bottle that keeps drinks cold for 24 hours",
+      "price": 24.99,
+      "image": "/images/water-bottle.svg",
+      "category": "accessories"
     }
   ]
   
