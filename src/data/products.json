@@ -1,0 +1,57 @@
+[
+    {
+      "id": "p001",
+      "name": "Wireless Bluetooth Headphones",
+      "description": "Comfortable over-ear headphones with noise cancellation and 40-hour battery life.",
+      "category": "Electronics",
+      "price": 89.99,
+      "rating": 4.6,
+      "stock": 25
+    },
+    {
+      "id": "p002",
+      "name": "Men's Running Shoes",
+      "description": "Lightweight and breathable running shoes with anti-slip sole.",
+      "category": "Fashion",
+      "price": 49.95,
+      "rating": 4.3,
+      "stock": 40
+    },
+    {
+      "id": "p003",
+      "name": "4K Ultra HD Smart TV 55-inch",
+      "description": "Smart TV with HDR, built-in apps, and voice control compatibility.",
+      "category": "Electronics",
+      "price": 399.99,
+      "rating": 4.8,
+      "stock": 10
+    },
+    {
+      "id": "p004",
+      "name": "Ceramic Coffee Mug Set",
+      "description": "Set of 6 colorful ceramic mugs perfect for hot drinks. Microwave safe.",
+      "category": "Home & Kitchen",
+      "price": 24.99,
+      "rating": 4.7,
+      "stock": 60
+    },
+    {
+      "id": "p005",
+      "name": "Women's Casual Handbag",
+      "description": "Stylish faux-leather handbag with multiple compartments.",
+      "category": "Fashion",
+      "price": 34.99,
+      "rating": 4.5,
+      "stock": 30
+    },
+    {
+      "id": "p006",
+      "name": "Portable Laptop Stand",
+      "description": "Adjustable laptop stand with cooling pad and ergonomic design.",
+      "category": "Electronics",
+      "price": 29.99,
+      "rating": 4.4,
+      "stock": 50
+    }
+  ]
+  

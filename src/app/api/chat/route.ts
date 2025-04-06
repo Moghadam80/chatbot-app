@@ -1,52 +1,58 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Conversation from "@/models/Conversation";
+import products from "@/data/products.json";
+
 
 const API_KEY = process.env.GOOGLE_GEMINI_API_KEY;
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
 export async function POST(req: Request) {
   await connectToDatabase();
+
   try {
     const { userId, message } = await req.json();
     if (!userId || !message) {
       return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
     }
 
-    // Fetch last 5 messages from the database for context
     let conversation = await Conversation.findOne({ userId });
     if (!conversation) {
       conversation = new Conversation({ userId, messages: [] });
     }
 
-    const systemMessage = "You are a professional AI assistant for an eCommerce website. Answer questions about products, orders, and support accurately.";
+    // Filter relevant products by keyword match
+    const keyword = message.toLowerCase();
+    const matchedProducts = products.filter(product =>
+      product.name.toLowerCase().includes(keyword) || product.description.toLowerCase().includes(keyword)
+    );
 
-    // Prepare the message context (only text, no role)
+    const productContext = matchedProducts
+      .slice(0, 5)
+      .map(p => `Product: ${p.name}\nPrice: $${p.price}\nDescription: ${p.description}`)
+      .join("\n\n");
+
+    const systemMessage = `You are an AI assistant for an eCommerce store. Based on the product data below, answer the customer's question accurately and helpfully.\n\nProduct Catalog:\n${productContext}`;
+
     const lastMessages = [
-      systemMessage, // Include system message first
-      ...conversation.messages.slice(-20).map((msg: { text: string }) => msg.text), // Extract text only
-      message, // Include latest user message
+      systemMessage,
+      ...conversation.messages.slice(-10).map((msg: { text: string }) => msg.text),
+      message
     ];
 
-    // Send conversation history as plain text to Gemini API
     const response = await fetch(GEMINI_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{ parts: lastMessages.map((text) => ({ text })) }],
+        contents: [{ parts: lastMessages.map(text => ({ text })) }],
       }),
     });
 
     const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || "Failed to generate AI response");
 
-    if (!response.ok) {
-      throw new Error(data.error?.message || "Failed to generate AI response");
-    } 
-
-    // Extract AI-generated response text
     const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure about that.";
 
-    // Store user and AI messages in MongoDB
     conversation.messages.push(
       { role: "user", text: message, timestamp: new Date() },
       { role: "bot", text: aiMessage, timestamp: new Date() }
