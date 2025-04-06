@@ -43,7 +43,7 @@ export default function Home() {
       </header>
 
       {/* Features Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-16 text-gray-900">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Key Features
@@ -75,7 +75,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 text-gray-900">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             How It Works
