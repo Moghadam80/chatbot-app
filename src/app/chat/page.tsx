@@ -5,6 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { fetchAPI } from "@/utils/fetchApi";
 import ProductCard from "@/components/ProductCard";
 import SearchHelp from "@/components/SearchHelp";
+import { useAppDispatch } from "@/store/hooks";
+import { addToBasket } from "@/store/basketSlice";
 
 interface Product {
   id: string;
@@ -24,6 +26,7 @@ interface Message {
 
 export default function ChatPage() {
   const { data: session, status } = useSession();
+  const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -94,8 +97,7 @@ export default function ChatPage() {
   };
 
   const handleAddToCart = (product: Product) => {
-    alert(`Added ${product.name} to cart`);
-    // Implement your cart logic here
+    dispatch(addToBasket(product));
   };
 
   const handleSearchExampleClick = (query: string) => {
