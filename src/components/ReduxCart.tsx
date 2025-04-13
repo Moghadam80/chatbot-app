@@ -13,12 +13,12 @@ const ReduxCart: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-4 overflow-y-auto z-50">
+    <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-4 overflow-y-auto z-50 border-l border-gray-200">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Shopping Cart</h2>
+        <h2 className="text-xl font-bold text-gray-800">Shopping Cart</h2>
         <button 
           onClick={() => dispatch(setBasketOpen(false))}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-gray-500 hover:text-gray-700 transition"
         >
           ×
         </button>
@@ -34,23 +34,23 @@ const ReduxCart: React.FC = () => {
                 <img
                   src={item.product.image}
                   alt={item.product.name}
-                  className="w-16 h-16 object-cover rounded"
+                  className="w-16 h-16 object-cover rounded shadow-md"
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold">{item.product.name}</h3>
-                  <p className="text-gray-600">${item.product.price}</p>
+                  <h3 className="font-semibold text-gray-800">{item.product.name}</h3>
+                  <p className="text-gray-600">${item.product.price.toFixed(2)}</p>
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity - 1 }))}
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-2 py-1 bg-red-200 text-red-600 rounded hover:bg-red-300 transition"
                       disabled={item.quantity <= 1}
                     >
                       -
                     </button>
-                    <span>{item.quantity}</span>
+                    <span className="text-gray-800">{item.quantity}</span>
                     <button
                       onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity + 1 }))}
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-2 py-1 bg-green-200 text-green-600 rounded hover:bg-green-300 transition"
                     >
                       +
                     </button>
@@ -58,7 +58,7 @@ const ReduxCart: React.FC = () => {
                 </div>
                 <button
                   onClick={() => dispatch(removeFromBasket(item.product.id))}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 transition"
                 >
                   ×
                 </button>
@@ -68,8 +68,8 @@ const ReduxCart: React.FC = () => {
 
           <div className="mt-6 border-t pt-4">
             <div className="flex justify-between mb-4">
-              <span className="font-semibold">Total:</span>
-              <span className="font-bold">${total.toFixed(2)}</span>
+              <span className="font-semibold text-gray-800">Total:</span>
+              <span className="font-bold text-gray-800">${total.toFixed(2)}</span>
             </div>
             <button
               onClick={() => alert('Proceeding to checkout...')}

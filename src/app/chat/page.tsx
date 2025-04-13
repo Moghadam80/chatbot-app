@@ -110,9 +110,7 @@ export default function ChatPage() {
       <div className="flex flex-col lg:flex-row max-w-6xl mx-auto h-[90vh] py-8">
         <aside className="lg:w-1/4 w-full bg-gray-800 p-4 rounded-lg shadow-md mb-6 lg:mb-0 mr-2 lg:h-[80vh]">
           <h2 className="text-xl font-bold text-teal-400 mb-4">🛍️ Shop Assistant</h2>
-          <button className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded mb-4 transition">
-            + New Shopping Session
-          </button>
+          
           <ul>
             <li className="text-gray-500 text-sm mb-2">Shopping Categories</li>
             <li className="mb-2 text-teal-400">👕 Clothing & Fashion</li>
