@@ -12,63 +12,148 @@ export default function Navbar() {
   const { data: session } = useSession();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { items, isOpen } = useAppSelector(state => state.basket);
+  const { items } = useAppSelector(state => state.basket);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
+  const handleMenuToggle = () => {
+    setIsMobileMenuOpen(prev => !prev);
+  };
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false); // Close menu on link click
+  };
+
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-blue-600">AI Shop Assistant</span>
+            <span className="text-xl font-bold text-white">AI Shop Assistant</span>
           </Link>
           
           <div className="flex items-center space-x-4">
-            <Link 
-              href="/products" 
-              className="text-gray-700 hover:text-blue-600 transition-colors"
+            {/* Hamburger Menu Button for Mobile */}
+            <button 
+              onClick={handleMenuToggle} 
+              className="md:hidden text-white focus:outline-none"
+              aria-label="Toggle menu"
             >
-              Products
-            </Link>
-            <Link 
-              href="/chat" 
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Chat
-            </Link>
-            
-            <button
-              onClick={() => dispatch(setBasketOpen(true))}
-              className="relative text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              🛒 Cart
-              {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItemCount}
-                </span>
-              )}
+              {isMobileMenuOpen ? '✖' : '☰'}
             </button>
-            
-            {session ? (
-              <div className="flex items-center space-x-2">
-                {session.user?.image && (
-                  <img 
-                    src={session.user.image} 
-                    alt={session.user.name || "User"} 
-                    className="w-8 h-8 rounded-full"
-                  />
-                )}
-                <span className="text-gray-700">{session.user?.name}</span>
-              </div>
-            ) : (
-              <button
-                onClick={() => setIsLoginPopupOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex md:space-x-4">
+              <Link 
+                href="/products" 
+                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
               >
-                Sign In
-              </button>
-            )}
+                Products
+              </Link>
+              <Link 
+                href="/chat" 
+                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+              >
+                Chat
+              </Link>
+              
+              {/* Remove Cart Link from Desktop */}
+              {/* <Link
+                href="/cart" // Link to the cart page
+                className="relative text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+              >
+                🛒 Cart
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Link> */}
+
+              {session ? (
+                <div className="flex items-center space-x-2">
+                  {session.user?.image && (
+                    <img 
+                      src={session.user.image} 
+                      alt={session.user.name || "User"} 
+                      className="w-8 h-8 rounded-full"
+                    />
+                  )}
+                  <span className="text-white">{session.user?.name}</span>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsLoginPopupOpen(true)}
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Sign In
+                </button>
+              )}
+            </div>
+
+            {/* Mobile Menu */}
+            <div className={`fixed inset-0 bg-black bg-opacity-75 z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+              <div className={`flex-col flex items-center justify-start h-full transition-all duration-300 ${isMobileMenuOpen ? 'flex' : 'hidden'} overflow-y-auto`}>
+                {/* Quit Icon */}
+                <button 
+                  onClick={handleMenuToggle} 
+                  className="absolute top-4 right-4 text-white text-2xl"
+                  aria-label="Close menu"
+                >
+                  ✖
+                </button>
+
+                <Link 
+                  href="/products" 
+                  className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  onClick={handleLinkClick}
+                >
+                  Products
+                </Link>
+                <Link 
+                  href="/chat" 
+                  className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  onClick={handleLinkClick}
+                >
+                  Chat
+                </Link>
+                
+                {/* Cart Link for Mobile */}
+                <Link
+                  href="/cart" // Link to the cart page
+                  className="relative text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  onClick={handleLinkClick}
+                >
+                  🛒 Cart
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </Link>
+
+                {session ? (
+                  <div className="flex items-center space-x-2">
+                    {session.user?.image && (
+                      <img 
+                        src={session.user.image} 
+                        alt={session.user.name || "User"} 
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
+                    <span className="text-white">{session.user?.name}</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setIsLoginPopupOpen(true)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +163,10 @@ export default function Navbar() {
         onClose={() => setIsLoginPopupOpen(false)} 
       />
       
-      <ReduxCart />
+      {/* Remove the ReduxCart component from mobile view */}
+      <div className="hidden md:block">
+        <ReduxCart />
+      </div>
     </nav>
   );
 } 

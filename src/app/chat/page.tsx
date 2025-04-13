@@ -106,9 +106,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <div className="bg-gradient-to-br from-gray-900 to-black text-white overflow-x-hidden">
       <div className="flex flex-col lg:flex-row max-w-6xl mx-auto h-[90vh] py-8">
-        <aside className="lg:w-1/4 w-full bg-gray-800 p-4 rounded-lg shadow-md mb-6 lg:mb-0 mr-2">
+        <aside className="lg:w-1/4 w-full bg-gray-800 p-4 rounded-lg shadow-md mb-6 lg:mb-0 mr-2 lg:h-[80vh]">
           <h2 className="text-xl font-bold text-teal-400 mb-4">🛍️ Shop Assistant</h2>
           <button className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded mb-4 transition">
             + New Shopping Session
@@ -162,8 +162,8 @@ export default function ChatPage() {
           </div>
         </aside>
 
-        <main className="lg:w-3/4 w-full bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col h-full">
-          <h1 className="text-3xl font-bold text-teal-400 mb-4">Ask anything you want!</h1>
+        <main className="lg:w-3/4 w-full bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col h-full lg:h-[80vh]">
+          <h1 className="text-2xl lg:text-3xl font-bold text-teal-400 mb-4">Ask anything you want!</h1>
 
           {showSearchHelp ? (
             <div className="flex-1">

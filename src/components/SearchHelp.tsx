@@ -16,7 +16,7 @@ const SearchHelp: React.FC<SearchHelpProps> = ({ onSearchExampleClick, onBackToC
   const categories = Array.from(new Set(products.map(product => product.category)));
   
   return (
-    <div className="bg-gray-800 rounded-lg p-6 text-white h-full flex flex-col">
+    <div className="bg-gray-800 rounded-lg p-6 text-white h-[55vh] flex flex-col">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-teal-400">🔍 Search Help</h2>
         <button 
