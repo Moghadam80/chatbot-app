@@ -215,7 +215,6 @@ export default function ChatPage() {
                             <ProductCard
                               key={product.id}
                               product={product}
-                              onAddToCart={handleAddToCart}
                             />
                           ))}
                         </div>
