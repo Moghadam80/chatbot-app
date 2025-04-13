@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import LoginPopup from "./LoginPopup";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { setBasketOpen } from "@/store/basketSlice";
@@ -26,11 +26,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg">
+    <nav className="bg-gradient-to-r from-purple-500 to-blue-600 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-white">AI Shop Assistant</span>
+            <span className="text-2xl font-bold text-white">AI Shop Assistant</span>
           </Link>
           
           <div className="flex items-center space-x-4">
@@ -44,16 +44,16 @@ export default function Navbar() {
             </button>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:flex md:space-x-4">
+            <div className="hidden md:flex md:space-x-6">
               <Link 
                 href="/products" 
-                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded-lg"
               >
                 Products
               </Link>
               <Link 
                 href="/chat" 
-                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded-lg"
               >
                 Chat
               </Link>
@@ -81,6 +81,12 @@ export default function Navbar() {
                     />
                   )}
                   <span className="text-white">{session.user?.name}</span>
+                  <button
+                    onClick={() => signOut()}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    Sign Out
+                  </button>
                 </div>
               ) : (
                 <button
@@ -94,26 +100,33 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             <div className={`fixed inset-0 bg-black bg-opacity-75 z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-              <div className={`flex-col flex items-center justify-start h-full transition-all duration-300 ${isMobileMenuOpen ? 'flex' : 'hidden'} overflow-y-auto`}>
+              <div className={`flex-col flex items-center justify-center h-full transition-all duration-300 ${isMobileMenuOpen ? 'flex' : 'hidden'} overflow-y-auto rounded-lg shadow-lg bg-white`}>
                 {/* Quit Icon */}
                 <button 
                   onClick={handleMenuToggle} 
-                  className="absolute top-4 right-4 text-white text-2xl"
+                  className="absolute top-4 right-4 text-black text-2xl"
                   aria-label="Close menu"
                 >
                   ✖
                 </button>
 
                 <Link 
+                  href="/" 
+                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
+                  onClick={handleLinkClick}
+                >
+                  Home
+                </Link>
+                <Link 
                   href="/products" 
-                  className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
                   onClick={handleLinkClick}
                 >
                   Products
                 </Link>
                 <Link 
                   href="/chat" 
-                  className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
                   onClick={handleLinkClick}
                 >
                   Chat
@@ -122,7 +135,7 @@ export default function Navbar() {
                 {/* Cart Link for Mobile */}
                 <Link
                   href="/cart" // Link to the cart page
-                  className="relative text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
+                  className="relative text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
                   onClick={handleLinkClick}
                 >
                   🛒 Cart
@@ -142,7 +155,13 @@ export default function Navbar() {
                         className="w-8 h-8 rounded-full"
                       />
                     )}
-                    <span className="text-white">{session.user?.name}</span>
+                    <span className="text-black">{session.user?.name}</span>
+                    <button
+                      onClick={() => signOut()}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 ) : (
                   <button
