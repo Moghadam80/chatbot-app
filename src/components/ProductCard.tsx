@@ -5,21 +5,25 @@ import { Product } from '@/types/product';
 import { useAppDispatch } from '@/store/hooks';
 import { addToBasket } from '@/store/basketSlice';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: (product: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
   const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart(product);
-    } else {
-      dispatch(addToBasket(product));
+    dispatch(addToBasket(product));
+
+    // Check if the screen width is less than or equal to 768px (mobile)
+    if (window.innerWidth <= 768) {
+      toast.success(`${product.name} has been added to your cart!`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
