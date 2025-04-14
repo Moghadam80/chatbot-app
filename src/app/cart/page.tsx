@@ -19,8 +19,9 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    // Implement checkout logic here
-    router.push('/checkout'); // Redirect to checkout page
+    // Instead of redirecting to the checkout page
+    alert('You will be redirected to the checkout page.'); // Show alert message
+    // router.push('/checkout'); // Commented out the redirect
   };
 
   return (
