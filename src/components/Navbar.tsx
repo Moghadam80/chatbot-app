@@ -19,7 +19,7 @@ export default function Navbar() {
   const menuItems = [
     { href: "/", label: "Dashboard" },
     { href: "/chat", label: "Chat" },
-    { href: "/cart", label: "Cart" },
+    { href: "/products", label: "products" },
   ];
 
   return (
