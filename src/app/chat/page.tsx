@@ -171,7 +171,7 @@ export default function ChatPage() {
               />
             </div>
           ) : (
-            <div className="flex-1 border p-4 rounded-lg overflow-y-auto space-y-4">
+            <div className="flex-1 min-h-[300px] border p-4 rounded-lg overflow-y-auto space-y-4">
               {messages.map((msg, index) => (
                 <div key={index}>
                   <p
@@ -243,7 +243,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 border border-gray-600 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+              className="flex-1 border  border-gray-600 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
               placeholder="Type your message..."
             />
             <button

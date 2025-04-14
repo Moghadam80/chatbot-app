@@ -4,188 +4,127 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import LoginPopup from "./LoginPopup";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { setBasketOpen } from "@/store/basketSlice";
+import { useAppSelector } from "@/store/hooks";
 import ReduxCart from "./ReduxCart";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-  const dispatch = useAppDispatch();
-  const { items } = useAppSelector(state => state.basket);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+  const { items } = useAppSelector((state) => state.basket);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const handleMenuToggle = () => {
-    setIsMobileMenuOpen(prev => !prev);
-  };
-
-  const handleLinkClick = () => {
-    setIsMobileMenuOpen(false); // Close menu on link click
-  };
+  const menuItems = [
+    { href: "/", label: "Dashboard" },
+    { href: "/chat", label: "Chat" },
+  ];
 
   return (
-    <nav className="bg-gradient-to-r from-purple-500 to-blue-600 shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold text-white">AI Shop Assistant</span>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            {/* Hamburger Menu Button for Mobile */}
-            <button 
-              onClick={handleMenuToggle} 
-              className="md:hidden text-white focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? '✖' : '☰'}
-            </button>
-
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex md:space-x-6">
-              <Link 
-                href="/products" 
-                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded-lg"
-              >
-                Products
-              </Link>
-              <Link 
-                href="/chat" 
-                className="text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded-lg"
-              >
-                Chat
-              </Link>
-              
-              {/* Remove Cart Link from Desktop */}
-              {/* <Link
-                href="/cart" // Link to the cart page
-                className="relative text-white hover:text-yellow-300 transition-colors px-3 py-2 rounded"
-              >
-                🛒 Cart
-                {cartItemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItemCount}
-                  </span>
-                )}
-              </Link> */}
-
-              {session ? (
-                <div className="flex items-center space-x-2">
-                  {session.user?.image && (
-                    <img 
-                      src={session.user.image} 
-                      alt={session.user.name || "User"} 
-                      className="w-8 h-8 rounded-full"
-                    />
-                  )}
-                  <span className="text-white">{session.user?.name}</span>
-                  <button
-                    onClick={() => signOut()}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setIsLoginPopupOpen(true)}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
-                >
-                  Sign In
-                </button>
-              )}
-            </div>
-
-            {/* Mobile Menu */}
-            <div className={`fixed inset-0 bg-black bg-opacity-75 z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-              <div className={`flex-col flex items-center justify-center h-full transition-all duration-300 ${isMobileMenuOpen ? 'flex' : 'hidden'} overflow-y-auto rounded-lg shadow-lg bg-white`}>
-                {/* Quit Icon */}
-                <button 
-                  onClick={handleMenuToggle} 
-                  className="absolute top-4 right-4 text-black text-2xl"
-                  aria-label="Close menu"
-                >
-                  ✖
-                </button>
-
-                <Link 
-                  href="/" 
-                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
-                  onClick={handleLinkClick}
-                >
-                  Home
-                </Link>
-                <Link 
-                  href="/products" 
-                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
-                  onClick={handleLinkClick}
-                >
-                  Products
-                </Link>
-                <Link 
-                  href="/chat" 
-                  className="text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
-                  onClick={handleLinkClick}
-                >
-                  Chat
-                </Link>
-                
-                {/* Cart Link for Mobile */}
-                <Link
-                  href="/cart" // Link to the cart page
-                  className="relative text-black hover:text-yellow-500 transition-colors px-3 py-2 rounded-lg"
-                  onClick={handleLinkClick}
-                >
-                  🛒 Cart
-                  {cartItemCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartItemCount}
-                    </span>
-                  )}
-                </Link>
-
-                {session ? (
-                  <div className="flex items-center space-x-2">
-                    {session.user?.image && (
-                      <img 
-                        src={session.user.image} 
-                        alt={session.user.name || "User"} 
-                        className="w-8 h-8 rounded-full"
-                      />
-                    )}
-                    <span className="text-black">{session.user?.name}</span>
-                    <button
-                      onClick={() => signOut()}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => setIsLoginPopupOpen(true)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    Sign In
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
+    <div className="relative">
+      {/* Top bar */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-3 shadow-md">
+        <button onClick={() => setIsSidebarOpen(true)} className="text-white md:hidden" aria-label="Open sidebar">
+          <Menu size={28} />
+        </button>
+        <Link href="/" className="text-xl font-bold text-white">
+          AI Shop Assistant
+        </Link>
+        <div className="hidden md:flex space-x-4">
+          <Link href="/" className="text-white hover:text-yellow-300">Dashboard</Link>
+          <Link href="/chat" className="text-white hover:text-yellow-300">Chat</Link>
+          <Link href="/products" className="text-white hover:text-yellow-300">Products</Link>
+        </div>
+        <div className="hidden md:block">
+          <ReduxCart />
         </div>
       </div>
-      
-      <LoginPopup 
-        isOpen={isLoginPopupOpen} 
-        onClose={() => setIsLoginPopupOpen(false)} 
-      />
-      
-      {/* Remove the ReduxCart component from mobile view */}
-      <div className="hidden md:block">
-        <ReduxCart />
-      </div>
-    </nav>
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 z-50 h-full w-72 bg-white dark:bg-gray-900 shadow-xl transition-transform duration-300 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Close Button */}
+        <div className="flex justify-between items-center px-4 py-4 border-b">
+          <div className="flex items-center space-x-3">
+            {session?.user?.image && (
+              <img
+                src={session.user.image}
+                alt="User"
+                className="w-10 h-10 rounded-full border-2 border-purple-500"
+              />
+            )}
+            <div>
+              <p className="font-semibold text-black dark:text-white">{session?.user?.name || "Guest"}</p>
+              <p className="text-sm text-gray-500">Webpixels</p>
+            </div>
+          </div>
+          <button onClick={() => setIsSidebarOpen(false)} className="text-gray-500 hover:text-red-500" aria-label="Close sidebar">
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Nav Links */}
+        <nav className="flex flex-col p-4 space-y-2">
+          {menuItems.map(({ href, label, badge }) => (
+            <Link
+              key={label}
+              href={href}
+              className="flex justify-between items-center px-3 py-2 text-gray-800 hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700 rounded-lg transition"
+              onClick={() => setIsSidebarOpen(false)}
+            >
+              <span>{label}</span>
+              {badge && (
+                <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full">
+                  {badge}
+                </span>
+              )}
+            </Link>
+          ))}
+
+          {/* Cart link */}
+          <Link
+            href="/cart"
+            className="relative text-gray-800 hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700 px-3 py-2 rounded-lg transition"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            🛒 Cart
+            {cartItemCount > 0 && (
+              <span className="absolute top-2 right-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
+          </Link>
+
+          {/* Auth Section */}
+          <div className="mt-4">
+            {session ? (
+              <button
+                onClick={() => signOut()}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsSidebarOpen(false);
+                  setIsLoginPopupOpen(true);
+                }}
+                className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg transition"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
+        </nav>
+      </aside>
+
+      <LoginPopup isOpen={isLoginPopupOpen} onClose={() => setIsLoginPopupOpen(false)} />
+    </div>
   );
-} 
+}
+

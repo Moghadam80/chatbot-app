@@ -9,7 +9,7 @@ export default function Home() {
       <header className="container mx-auto px-4 pt-8 md:py-16">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="md:w-1/2 mb-10 md:mb-0">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
               AI-Powered E-commerce Assistant
             </h1>
             <p className="text-xl text-gray-600 mb-8">
@@ -22,7 +22,7 @@ export default function Home() {
               Try the Chatbot
             </Link>
           </div>
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 hidden md:flex">
             <div className="relative h-80 md:h-96 w-full">
               <div className="absolute inset-0 bg-blue-100 rounded-2xl shadow-xl overflow-hidden">
                 <div className="p-4 h-full flex flex-col">
