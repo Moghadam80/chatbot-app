@@ -70,7 +70,7 @@ export default function Navbar() {
 
         {/* Nav Links */}
         <nav className="flex flex-col p-4 space-y-2">
-          {menuItems.map(({ href, label, badge }) => (
+          {menuItems.map(({ href, label }) => (
             <Link
               key={label}
               href={href}
@@ -78,11 +78,7 @@ export default function Navbar() {
               onClick={() => setIsSidebarOpen(false)}
             >
               <span>{label}</span>
-              {badge && (
-                <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full">
-                  {badge}
-                </span>
-              )}
+              
             </Link>
           ))}
 
