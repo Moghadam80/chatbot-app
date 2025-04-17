@@ -16,13 +16,6 @@ A smart, customizable AI chatbot built with **Next.js 15**, **Google Gemini API*
 - ✅ Typing animation and auto-scroll
 - ✅ Easily customizable for eCommerce or support use
 
----
-
-## 📸 Screenshots
-
-| Chat UI | Sidebar with Chat History | Typing Indicator |
-|--------|---------------------------|------------------|
-| ![Chat UI](public/screenshots/chat-ui.png) | ![Sidebar](public/screenshots/sidebar.png) | ![Typing](public/screenshots/typing.png) |
 
 ---
 
@@ -33,13 +26,13 @@ A smart, customizable AI chatbot built with **Next.js 15**, **Google Gemini API*
 - **AI:** Google Gemini (Gemini Pro / Flash)
 - **Database:** MongoDB Atlas
 - **Auth:** NextAuth.js (Google provider + Credentials)
-- **Hosting:** (You can deploy to [Vercel](https://vercel.com))
+- **Hosting:** (https://chatbot-app-alimoghadam.vercel.app)
 
 ---
 
 ## 🚀 Live Demo
 
-> Coming soon – [Deploy to Vercel](https://vercel.com)
+> https://chatbot-app-alimoghadam.vercel.app
 
 ---
 
