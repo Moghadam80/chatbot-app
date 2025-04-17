@@ -112,7 +112,7 @@ export default function ChatPage() {
           <h2 className="text-xl font-bold text-teal-400 mb-4">🛍️ Shop Assistant</h2>
           
           <ul>
-            <li className="text-gray-500 text-sm mb-2">Shopping Categories</li>
+            {/* <li className="text-gray-500 text-sm mb-2">Shopping Categories</li>
             <li className="mb-2 text-teal-400">👕 Clothing & Fashion</li>
             <li className="mb-2 text-teal-400">📱 Electronics</li>
             <li className="mb-2 text-teal-400">🏠 Home & Living</li>
@@ -122,7 +122,7 @@ export default function ChatPage() {
             <li className="mb-2 text-teal-400">🛒 Cart Assistant</li>
             <li className="mb-2 text-teal-400">💰 Deals & Offers</li>
             <li className="mb-2 text-teal-400">📦 Order Tracking</li>
-            <li className="mb-2 text-teal-400">⭐ Product Reviews</li>
+            <li className="mb-2 text-teal-400">⭐ Product Reviews</li> */}
             <li 
               className="text-teal-400 cursor-pointer hover:text-teal-300"
               onClick={() => setShowSearchHelp(true)}
