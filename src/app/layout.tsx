@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/trace.svg" type="image/svg+xml" />
+      </head>
       <body>
         <ReduxProvider>
           <SessionProviderWrapper>
