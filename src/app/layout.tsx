@@ -17,9 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReduxProvider>
           <SessionProviderWrapper>
             <Navbar />
-            {/* <Suspense fallback={<Loading />}> */}
+            <Suspense fallback={<Loading />}>
               {children}
-            {/* </Suspense> */}
+            </Suspense>
           </SessionProviderWrapper>
         </ReduxProvider>
         <ToastContainer />
