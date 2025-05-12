@@ -8,13 +8,13 @@ interface ProductListProps {
   products: Product[];
 }
 
-export default function ProductList({ products }: ProductListProps) {
+export default function ProductList({ products = [] }: ProductListProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const categories = ['all', ...new Set(products.map(product => product.category))];
+  const categories = ['all', ...new Set((products || []).map(product => product.category))];
 
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = (products || []).filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
