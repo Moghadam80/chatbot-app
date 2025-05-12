@@ -41,8 +41,11 @@ export default function ChatContent({ showSearchHelp, setShowSearchHelp }: ChatC
     const loadMessages = async () => {
       setIsLoadingMessages(true);
       try {
+        console.log('Loading messages for user:', userId);
+        console.log('Auth status:', status);
         if (status === "authenticated") {
           const fetchedMessages = await getMessages(userId);
+          console.log('Fetched messages:', fetchedMessages);
           setMessages(fetchedMessages);
         }
       } catch (error) {
