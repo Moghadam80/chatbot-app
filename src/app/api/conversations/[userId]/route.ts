@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Conversation from "@/models/Conversation";
 
+export const dynamic = 'force-dynamic';  // Disable caching at the route level
+export const runtime = 'nodejs';  // Ensure Node.js runtime
+
 type RouteContext = {
   params: Promise<{
     userId: string;

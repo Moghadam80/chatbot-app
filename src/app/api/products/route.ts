@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import products from "@/data/products.json";
 
+export const dynamic = 'force-dynamic';  // Disable caching at the route level
+export const runtime = 'nodejs';  // Ensure Node.js runtime
+
 export async function GET() {
   try {
     return NextResponse.json({ products });

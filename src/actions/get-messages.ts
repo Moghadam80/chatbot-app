@@ -3,15 +3,14 @@
 import { fetchAPI } from "@/utils/fetchApi";
 import { Message } from "@/types/message";
 
-let messagesCache: { [key: string]: Message[] } = {};
-
 export async function getMessages(userId: string): Promise<Message[]> {
     try {
         if (userId && userId !== "guest") {
-            const data = await fetchAPI(`/api/conversations/${userId}`, { method: "GET" });
-            const messages = data.messages || [];
-            messagesCache[userId] = messages;
-            return messages;
+            const data = await fetchAPI(`/api/conversations/${userId}`, { 
+                method: "GET",
+                next: { revalidate: 0 }  // Disable caching to always get fresh data
+            });
+            return data.messages || [];
         }
         return [];
     } catch (error) {
