@@ -1,3 +1,5 @@
+'use server';
+
 import { Product } from '@/types/product';
 import { fetchAPI } from '@/utils/fetchApi';
 
