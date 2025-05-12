@@ -2,9 +2,10 @@ import SessionProviderWrapper from "@/components/SessionProviderWrapper"; // Imp
 import Navbar from "@/components/Navbar";
 import ReduxProvider from "@/components/ReduxProvider";
 import "./globals.css";
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from './loading';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReduxProvider>
           <SessionProviderWrapper>
             <Navbar />
-            {children}
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
           </SessionProviderWrapper>
         </ReduxProvider>
         <ToastContainer />

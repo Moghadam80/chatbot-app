@@ -1,19 +1,17 @@
 'use server';
 
 import { fetchAPI } from "@/utils/fetchApi";
+import { Message } from "@/types/message";
 
-interface Message {
-    role: "user" | "bot";
-    text: string;
-    feedback?: "up" | "down";
-    products?: any[];
-}
+let messagesCache: { [key: string]: Message[] } = {};
 
 export async function getMessages(userId: string): Promise<Message[]> {
     try {
         if (userId && userId !== "guest") {
             const data = await fetchAPI(`/api/conversations/${userId}`, { method: "GET" });
-            return data.messages || [];
+            const messages = data.messages || [];
+            messagesCache[userId] = messages;
+            return messages;
         }
         return [];
     } catch (error) {
