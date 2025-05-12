@@ -13,6 +13,16 @@ interface FetchAPIOptions {
 export async function fetchAPI(url: string, options: FetchAPIOptions) {
   const { method, authToken, body, next } = options;
 
+  // Get the base URL based on the environment
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
+    (typeof window === 'undefined' 
+      ? process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000'
+      : '');
+
+  const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
+
   const headers: RequestInit & { next?: NextFetchRequestConfig } = {
     method,
     headers: {
@@ -24,7 +34,7 @@ export async function fetchAPI(url: string, options: FetchAPIOptions) {
   };
 
   try {
-    const response = await fetch(url, headers);
+    const response = await fetch(fullUrl, headers);
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json") && response.ok) {
       return await response.json();

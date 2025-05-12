@@ -7,6 +7,9 @@ import ProductCard from "@/components/ProductCard";
 import SearchHelp from "@/components/SearchHelp";
 import { useAppDispatch } from "@/store/hooks";
 import { addToBasket } from "@/store/basketSlice";
+import { getMessages } from "@/actions/get-messages";
+import { sendMessageAction } from "@/actions/send-message";
+import { submitFeedbackAction } from "@/actions/submit-feedback";
 
 interface Product {
   id: string;
@@ -40,12 +43,12 @@ export default function ChatPage() {
   useEffect(() => {
     const loadMessages = async () => {
       if (status === "authenticated") {
-        const data = await fetchAPI(`/api/conversations/${userId}`, { method: "GET" });
-        setMessages(data.messages || []);
+        const messages = await getMessages(userId);
+        setMessages(messages);
       }
     };
     loadMessages();
-  }, [status]);
+  }, [status, userId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -60,15 +63,12 @@ export default function ChatPage() {
     setTyping(true);
     setLoading(true);
 
-    const data = await fetchAPI("/api/chat", {
-      method: "POST",
-      body: { userId, message: input },
-    });
+    const data = await sendMessageAction(userId, input);
 
     setTyping(false);
     setLoading(false);
 
-    if (data.message) {
+    if (data && data.message) {
       const botMessage: Message = { 
         role: "bot", 
         text: data.message,
@@ -90,10 +90,7 @@ export default function ChatPage() {
     updatedMessages[index].feedback = feedback;
     setMessages(updatedMessages);
 
-    await fetchAPI("/api/feedback", {
-      method: "POST",
-      body: { userId, message: updatedMessages[index].text, feedback },
-    });
+    await submitFeedbackAction(userId, updatedMessages[index].text, feedback);
   };
 
   const handleAddToCart = (product: Product) => {
