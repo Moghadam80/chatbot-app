@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { addToBasket } from '@/store/basketSlice';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 interface ProductCardProps {
   product: Product;
@@ -28,7 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105">
+    <Link href={`/products/${product.id}`} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105">
       <div className="relative h-48">
         {imageError ? (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -52,14 +53,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold text-gray-800">${product.price}</span>
           <button
-            onClick={handleAddToCart}
+            onClick={(e) => {e.preventDefault(); handleAddToCart()}}
             className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition"
           >
             Add to Cart
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
