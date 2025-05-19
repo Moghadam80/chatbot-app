@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import products from '@/data/products.json'; // or wherever your product list is
+import products from '@/data/products.json';
+
+type Params = {
+  params: Promise<{
+    productId: string;
+  }>;
+};
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { productId: string } }
+  request: NextRequest,
+  context: Params
 ) {
   try {
-    const { productId } = await params; 
-    
+    const { productId } = await context.params;
 
     const product = products.find((product) => product.id === productId);
 
