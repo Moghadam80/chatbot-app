@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import ProductDetails from './components/ProductDetails';
-import { Product } from '@/types/product';
-import { fetchAPI } from '@/utils/fetchApi';
+import products from '@/data/products.json';
 
 // Add revalidation time (in seconds)
 export const revalidate = 3600; // Revalidate every hour
@@ -15,9 +14,13 @@ type Props = {
 
 // Generate static paths for the most common products
 export async function generateStaticParams() {
-    const products: Product[] = await fetchAPI('/api/products', { method: 'GET' }).then((res) => res.products)
-
+  try {
+    // Use local JSON file for static generation
     return products.map((product) => ({ productId: String(product.id) }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
 }
 
 const ProductPage = async (props: Props) => {
