@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Product } from '@/types/product';
 import ProductCard from '@/components/ProductCard';
 
@@ -9,12 +10,29 @@ interface ProductListProps {
 }
 
 export default function ProductList({ products = [] }: ProductListProps) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const categories = ['all', ...new Set((products || []).map(product => product.category))];
+  // Read initial values from URL
+  const initialSearch = searchParams.get('search') || '';
+  const initialCategory = searchParams.get('category') || 'all';
 
-  const filteredProducts = (products || []).filter(product => {
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const categories = ['all', ...new Set(products.map(product => product.category))];
+
+  // Sync changes to URL
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedCategory !== 'all') params.set('category', selectedCategory);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [searchQuery, selectedCategory]);
+
+  const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
@@ -44,11 +62,16 @@ export default function ProductList({ products = [] }: ProductListProps) {
           ))}
         </select>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts?.length > 0 && filteredProducts.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p className="col-span-full text-gray-500">No products found.</p>
+        )}
       </div>
     </>
   );
-} 
+}
