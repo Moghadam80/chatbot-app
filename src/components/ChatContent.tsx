@@ -9,7 +9,6 @@ import { submitFeedbackAction } from "@/actions/submit-feedback";
 import ProductCard from "@/components/ProductCard";
 import SearchHelp from "@/components/SearchHelp";
 import { Message } from "@/types/message";
-import { getMessages } from "@/actions/get-messages";
 
 interface Product {
   id: string;
@@ -50,9 +49,10 @@ export default function ChatContent({ showSearchHelp, setShowSearchHelp }: ChatC
     const fetchMessages = async () => {
       setIsLoadingMessages(true);
       try {
-        const response = await getMessages(userId);
-        if (response?.length > 0) {
-          setMessages(response);
+        const response = await fetch(`/api/conversations/${userId}`);
+        const data = await response.json();
+        if (data.messages) {
+          setMessages(data.messages);
         }
       } catch (error) {
         console.error('Error fetching messages:', error);
