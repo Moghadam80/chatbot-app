@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/trace.svg" type="image/svg+xml" />
       </head>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider defaultTheme="dark" enableSystem>
           <ReduxProvider>
             <SessionProviderWrapper>
               <Navbar />
