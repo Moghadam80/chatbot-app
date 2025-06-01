@@ -63,6 +63,9 @@ export default function ChatContent({ showSearchHelp, setShowSearchHelp }: ChatC
 
     if (userId !== "guest") {
       fetchMessages();
+    } else{
+      setIsLoadingMessages(false);
+
     }
   }, [userId]);
 

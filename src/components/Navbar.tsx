@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import LoginPopup from "./LoginPopup";
 import { useAppSelector } from "@/store/hooks";
 import ReduxCart from "./ReduxCart";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
   const { items } = useAppSelector((state) => state.basket);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,20 +25,47 @@ export default function Navbar() {
   return (
     <div className="relative">
       {/* Top bar */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-3 shadow-md">
-        <button onClick={() => setIsSidebarOpen(true)} className="text-white md:hidden" aria-label="Open sidebar">
-          <Menu size={28} />
-        </button>
-        <Link href="/" className="text-xl font-bold text-white">
-          AI Shop Assistant
-        </Link>
+      <div className="flex w-full items-center justify-between bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-3 shadow-md">
+        <div className="flex items-center">
+          <button onClick={() => setIsSidebarOpen(true)} className="text-white md:hidden" aria-label="Open sidebar">
+            <Menu size={28} />
+          </button>
+          <Link href="/" className="text-xl font-bold text-white ml-2">
+            AI Shop Assistant
+          </Link>
+        </div>
+
         <div className="hidden md:flex space-x-4">
           <Link href="/" className="text-white hover:text-yellow-300">Dashboard</Link>
           <Link href="/chat" className="text-white hover:text-yellow-300">Chat</Link>
           <Link href="/products" className="text-white hover:text-yellow-300">Products</Link>
         </div>
-        <div className="hidden md:block">
-          <ReduxCart />
+
+        <div className="flex items-center space-x-4">
+          <div className="hidden md:block">
+            <ReduxCart />
+          </div>
+          {status === 'authenticated' ? (
+            <Link 
+              href={'/personal-info'} 
+              className="flex items-center space-x-2 text-white hover:text-yellow-300 transition-colors duration-200"
+            >
+              <span className="hidden sm:inline">My Account</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                setIsSidebarOpen(false);
+                setIsLoginPopupOpen(true);
+              }}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded transition"
+            >
+              Sign In
+            </button>
+          )}
         </div>
       </div>
 

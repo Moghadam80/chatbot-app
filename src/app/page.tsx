@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import './globals.css';
+import "@radix-ui/themes/styles.css";
+
 
 export default function Home() {
   return (
