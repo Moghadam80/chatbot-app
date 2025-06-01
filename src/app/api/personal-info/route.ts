@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { connectToDatabase } from '@/lib/mongodb';
 import PersonalInfo from '@/models/PersonalInfo';
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 const personalInfoSchema = z.object({
     firstName: z.string()
@@ -72,8 +73,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
     try {
-        const { data: session } = useSession();
-
+        const session = await getServerSession(authOptions);
         
         if (!session?.user?.email) {
             return NextResponse.json({
